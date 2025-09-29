@@ -13,9 +13,15 @@ function startServer() {
   const app = new Hono<{ Bindings: Bindings }>();
 
   app.get('/api/users', async (c) => {
+
+    const { DB } = c.env; // Destructure your D1 binding from c.env
+
+      if (!DB) {
+        return c.text('D1 binding not found', 500);
+      }
     try {
       const { results } = await c.env.DB.prepare(
-        "SELECT * FROM users"
+        "SELECT * FROM article"
       ).all();
       return c.json(results);
     } catch (e) {

@@ -147,3 +147,7 @@ npx wrangler d1 backup archive --output=./d1_backup.sqlite
 npx wrangler d1 export archive --file=./d1_export.sql
 
 
+#最新
+npx wrangler d1 export archive --output=./d1_export.sql
+
+npx wrangler d1 execute archive --local --file=./d1_export.sql

@@ -2,7 +2,7 @@
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-  schema: './database/drizzle/schema/*', // 指定你的 schema 文件路径
+  schema: './drizzle/schema/schema.ts', // 指定你的 schema 文件路径
   dialect: 'sqlite',
   driver: 'd1-http',
   dbCredentials: {
