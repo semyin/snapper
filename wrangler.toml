@@ -1,4 +1,4 @@
-name = "my-app"
+name = "snapper"
 compatibility_date = "2024-09-29"
 pages_build_output_dir = "./dist/cloudflare"
 compatibility_flags = [ "nodejs_compat" ]
@@ -7,7 +7,7 @@ compatibility_flags = [ "nodejs_compat" ]
 # https://developers.cloudflare.com/d1/build-with-d1/local-development/#develop-locally-with-pages
 [[d1_databases]]
 binding = "DB" # Should match preview_database_id
-database_name = "YOUR_DATABASE_NAME"
-database_id = "the-id-of-your-D1-database-goes-here" # wrangler d1 info YOUR_DATABASE_NAME
+database_name = "archive"
+database_id = "f05bcc9e-52ab-485c-a3a0-87f2a472a7c1" # wrangler d1 info YOUR_DATABASE_NAME
 preview_database_id = "DB" # Required for Pages local development
 migrations_dir = "database/migrations"

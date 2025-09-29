@@ -1,21 +1,38 @@
 import "dotenv/config";
-import { dbMiddleware } from "./server/db-middleware";
-import { createTodoHandler } from "./server/create-todo-handler";
-import { vikeHandler } from "./server/vike-handler";
-import { createHandler, createMiddleware } from "@universal-middleware/hono";
+import { D1Database } from '@cloudflare/workers-types'
+import { apply } from "vike-cloudflare/hono";
+import { serve } from "vike-cloudflare/hono/serve";
 import { Hono } from "hono";
 
-const app = new Hono();
+type Bindings = {
+  DB: D1Database
+}
 
-app.use(createMiddleware(dbMiddleware)());
+function startServer() {
+  
+  const app = new Hono<{ Bindings: Bindings }>();
 
-app.post("/api/todo/create", createHandler(createTodoHandler)());
+  app.get('/api/users', async (c) => {
+    try {
+      const { results } = await c.env.DB.prepare(
+        "SELECT * FROM users"
+      ).all();
+      return c.json(results);
+    } catch (e) {
+      console.error(e);
+      return c.json({ err: e }, 500);
+    }
+  })
 
-/**
- * Vike route
- *
- * @link {@see https://vike.dev}
- **/
-app.all("*", createHandler(vikeHandler)());
+  app.get('/api/abc', (c) => {
+    return c.json({
+      message: 'hello world',
+    })
+  })
 
-export default app;
+  apply(app);
+
+  return serve(app, { port: 3000 });
+}
+
+export default startServer();
